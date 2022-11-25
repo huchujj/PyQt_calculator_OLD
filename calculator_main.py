@@ -32,7 +32,7 @@ class Main(QDialog):
         button_division = QPushButton("/")
 
         ### 사칙연산 외 신규 연산 기능 버튼 생성
-        button_remainder = QPushButton("%")
+        button_percent = QPushButton("%")
         button_clear = QPushButton("CE")
         button_clearAll = QPushButton("C")
         button_inverse = QPushButton("1/x")
@@ -52,7 +52,7 @@ class Main(QDialog):
         layout_operation.addWidget(button_division, 0, 3)
 
         ### 사칙연산 외 신규 연산 기능 버튼을 layout_operation 레이아웃에 추가
-        layout_operation.addWidget(button_remainder, 1, 0)
+        layout_operation.addWidget(button_percent, 1, 0)
         layout_operation.addWidget(button_clear, 1, 1)
         layout_operation.addWidget(button_clearAll, 1, 2)
         
