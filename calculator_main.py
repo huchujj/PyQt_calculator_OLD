@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
+import numpy as np
 
 class Main(QDialog):
     def __init__(self):
@@ -48,6 +49,10 @@ class Main(QDialog):
         ### 사칙연산 외 신규 연산 기능 버튼을 클릭했을 때, 기능이 수행될 수 있도록 시그널 설정
         button_clearAll.clicked.connect(self.button_clearAll_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
+        button_inverse.clicked.connect(self.button_inverse_clicked)
+        button_square.clicked.connect(self.button_square_clicked)
+        button_squareRoot.clicked.connect(self.button_squareRoot_clicked)
+        button_percent.clicked.connect(self.button_percent_clicked)
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_operation.addWidget(button_plus, 0, 0)
@@ -66,16 +71,13 @@ class Main(QDialog):
 
         ### =, clear, backspace 버튼 생성
         button_equal = QPushButton("=")
-        # button_clear = QPushButton("Clear")
         button_backspace = QPushButton("Backspace")
 
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
         button_equal.clicked.connect(self.button_equal_clicked)
-        # button_clear.clicked.connect(self.button_clear_clicked)
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
-        # layout_clear_equal.addWidget(button_clear)
         layout_clear_equal.addWidget(button_backspace)
         layout_clear_equal.addWidget(button_equal)
 
@@ -139,6 +141,63 @@ class Main(QDialog):
         equation = self.equation.text()
         equation = equation[:-1]
         self.equation.setText(equation)
+        
+    def button_inverse_clicked(self):
+        equation = self.equation.text()
+        solution = self.solution.text()
+
+        equation = equation[:-1]
+        equation += str(1) + "/(" + solution + ")"
+
+        solution = eval(str(1) + "/" + solution)
+
+        self.equation.setText(equation)
+        self.solution.setText(str(solution))
+
+    def button_square_clicked(self):
+        equation = self.equation.text()
+        solution = self.solution.text()
+        
+        equation = equation[:-1]
+        equation += "sqr(" + solution + ")"
+        
+        solution = eval(solution + "**" + str(2))
+
+        self.equation.setText(equation)
+        self.solution.setText(str(solution))
+
+    def button_squareRoot_clicked(self):
+        equation = self.equation.text()
+        solution = self.solution.text()
+        
+        equation = equation[:-1]
+        equation += "root(" + solution + ")"
+
+        result = np.sqrt(float(solution))
+        solution = eval(str(result))
+
+        self.equation.setText(equation)
+        self.solution.setText(str(solution))
+
+    def button_percent_clicked(self):
+        equation = self.equation.text()
+        solution = self.solution.text()
+
+        if len(equation) == 0:
+            self.solution.setText(str(0))
+        else:
+            if equation[-1].isdigit():
+                result = eval(solution + "/" + str(100))
+                equation += "x" + str(result)
+                self.solution.setText(str(result))
+                equation = self.equation.setText(equation)
+            else: 
+                result = eval(solution + "/" + str(100))
+                equation[-1] = ""
+                equation += "x" + str(result)
+                self.solution.setText(str(result))
+                equation = self.equation.setText(equation)
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
