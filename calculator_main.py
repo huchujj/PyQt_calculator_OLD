@@ -45,6 +45,10 @@ class Main(QDialog):
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
 
+        ### 사칙연산 외 신규 연산 기능 버튼을 클릭했을 때, 기능이 수행될 수 있도록 시그널 설정
+        button_clearAll.clicked.connect(self.button_clearAll_clicked)
+        button_clear.clicked.connect(self.button_clear_clicked)
+
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_operation.addWidget(button_plus, 0, 0)
         layout_operation.addWidget(button_minus, 0, 1)
@@ -124,9 +128,12 @@ class Main(QDialog):
         solution = eval(equation)
         self.solution.setText(str(solution))
 
-    # def button_clear_clicked(self):
-    #     self.equation.setText("")
-    #     self.solution.setText("")
+    def button_clearAll_clicked(self):
+       self.equation.setText("")
+       self.solution.setText("")
+
+    def button_clear_clicked(self):
+       self.solution.setText("")
 
     def button_backspace_clicked(self):
         equation = self.equation.text()
